@@ -1,0 +1,42 @@
+KPI 1.select theme, excitement_rating, nausea_rating, count(rollercoaster_type) from rollercoaster group by theme, excitement_rating, nausea_rating;
+
+
+KPI 2.
+a)select highest_drop_height, excitement_rating, count(rollercoaster_type) from rollercoaster where highest_drop_height > 50 and excitement_rating='Very High' group by highest_drop_height, excitement_rating;
+
+b)select park_id, highest_drop_height, excitement_rating, count(rollercoaster_type) from rollercoaster where highest_drop_height > 50 and excitement_rating='High' group by park_id,highest_drop_height, excitement_rating;	
+
+KPI 3.
+a) select rollercoaster_type, excitement_rating, intensity_rating, nausea_rating, total_air_time from rollercoaster order by total_air_time desc limit 1;
+
+b)	select t1.total_air_time from rollercoaster t1 right join (select park_id, rollercoaster_type, excitement	_rating, intensity_rating, nausea_rating, total_air_time from rollercoaster order by total_air_time desc limit 1) t2 on t1.excitement_rating = t2.excitement_rating and t1.intensity_rating = t2.intensity_rating and t1.nausea_rating = t2.nausea_rating;
+
+KPI 4.
+a) select rollercoaster_type, excitement_rating, intensity_rating, nausea_rating, avg_speed from rollercoaster order by avg_speed desc limit 1;
+
+b)select t1.max_speed from rollercoaster t1 right join (select rollercoaster_type, excitement_rating, intensity_rating, nausea_rating, total_air_time from rollercoaster order by avg_speed desc limit 1) t2 on t1.excitement_rating = t2.excitement_rating and t1.intensity_rating = t2.intensity_rating and t1.nausea_rating = t2.nausea_rating;
+
+KPI 5.select t.park_id, t.rollercoaster_type from (select excitement_rating, park_id, rollercoaster_type  from rollercoaster where drops > 10 group by excitement_rating, park_id, rollercoaster_type) t;
+
+KPI 6.select rollercoaster_type, custom_design from rollercoaster where excitement_rating = 'High' group by custom_design, rollercoaster_type;
+
+KPI 7.select distinct excitement_rating, nausea_rating from rollercoaster where ride_length>2000 and max_speed>50;
+
+KPI 8.select t.theme from (select theme, count(excitement_rating) from rollercoaster where excitement_rating = 'High' group by theme having count(excitement_rating) >= 2) t;
+
+KPI 9.select rollercoaster_type from rollercoaster where max_speed in (select max(max_speed) from rollercoaster)  and excitement_rating = 'Very High';
+
+KPI 10.select rollercoaster_type from rollercoaster where total_air_time > 5 and excitement_rating != 'Very High';
+
+KPI 11.	 select t.avg_speed_category, t.avg_speed, t.excitement_rating from (select case when avg_speed > 30 and avg_speed < 40 then '>30' when avg_speed > 40 then '>40' else '<30' end as avg_speed_category, avg_speed, excitement_rating from rollercoaster where ride_length > 3000) t where t.avg_speed >30 group by t.avg_speed_category, t.avg_speed, excitement_rating;
+
+KPI 12. select rollercoaster_type from rollercoaster where max_pos_gs>4 and  max_neg_gs>1 and intensity > excitement;
+
+KPI 13. 
+a) select intensity, excitement, count(rollercoaster_type) from rollercoaster where max_pos_gs >= 4 and max_neg_gs >= 1 and intensity >= excitement group by intensity, excitement;
+
+b)select intensity, excitement, count(rollercoaster_type) from rollercoaster where max_pos_gs < 4 and max_neg_gs < 1 and intensity < excitement group by intensity, excitement;
+
+KPI 14.select distinct excitement_rating  from rollercoaster where  nausea_rating = 'Low';
+
+KPI 15.	select rollercoaster_type, custom_design from rollercoaster where intensity_rating='Very High' and ride_length > 2000 group by custom_design, rollercoaster_type;
